@@ -4,8 +4,10 @@ if [[ -f "$1" ]]; then
 	echo "Analying the logs..."
 else
 	echo "File Not Found"
-	return 1
+	exit 1
 fi
 
-echo "Total number of logs: $( cat $1 | wc -l )"
-echo "Uniqe IPs: $( cat $1 | awk '{ print $1 }' | uniq | wc -l )"
+echo "Total number of logs: $( wc -l < "$1" )"
+echo "Uniqe IPs: $( awk '{ print $1 }' "$1" | sort -u | wc -l )"
+echo "Number of 2xx: $( awk ' $9 ~ /^2[0-9][0-9]$/ {print $9} ' "$1" | wc -l)"
+echo "Number of 4xx: $( awk ' $9 ~ /^4[0-9][0-9]$/ {print $9} ' "$1" | wc -l)"
