@@ -8,3 +8,4 @@ else
 fi
 
 echo "Total number of logs: $( cat $1 | wc -l )"
+echo "Uniqe IPs: $( cat $1 | awk '{ print $1 }' | uniq | wc -l )"
