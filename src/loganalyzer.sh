@@ -25,3 +25,8 @@ echo
 
 echo "Top 10 404 Paths:"
 awk ' $9==404 { print $7 }' "$1" | sort | uniq -c | sort -r | head
+
+echo
+echo "==========================================================="
+
+
