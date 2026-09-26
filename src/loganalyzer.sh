@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+while getopts ":nh" opt; do
+	case "$opt" in
+		n)
+			echo "You have passed the n as the cli argument";;
+		h)
+			echo "You have asked for help";;
+		*)
+			echo "Setting default Values";;
+	esac
+done
+
+shift $((OPTIND -1))
+
 if [[ -f "$1" ]]; then
 	echo "Analying the logs..."
 else
