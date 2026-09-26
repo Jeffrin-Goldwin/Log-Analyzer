@@ -28,5 +28,14 @@ awk ' $9==404 { print $7 }' "$1" | sort | uniq -c | sort -r | head
 
 echo
 echo "==========================================================="
+echo
 
-
+echo "Request Per Hour:"
+awk -F: '{ count[$2]++ }
+END {
+  for (h in count) {
+    bar = ""
+    for (i = 0; i < count[h] / 10; i++) bar = bar "#"
+    printf "%s  %4d  %s\n", h, count[h], bar
+  }
+}' access.log | sort -n
