@@ -1,0 +1,10 @@
+# Log files (don't commit generated/real access logs)
+*.log
+*.log.gz
+access.log
+access.log.gz
+
+# Editor / OS junk
+.DS_Store
+Thumbs.db
+*.swp
