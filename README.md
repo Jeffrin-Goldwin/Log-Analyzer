@@ -39,6 +39,10 @@ Options:
 | `-s CLASS` | Only analyse requests with this status class (`2xx`, `3xx`, `4xx`, `5xx`) |
 | `-h`       | Show help                                            |
 
+The report is colorized when run in a terminal. Colors are turned off
+automatically when the output is piped to a file, or you can disable them
+explicitly with `NO_COLOR=1`.
+
 ### Examples
 
 ```bash
