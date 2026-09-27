@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-while getopts ":nh" opt; do
+n=10 #default vaule for dipslaying top
+
+while getopts ":n:h" opt; do
 	case "$opt" in
 		n)
-			echo "You have passed the n as the cli argument";;
+			n=${OPTARG};;
 		h)
 			echo "You have asked for help";;
 		*)
@@ -28,16 +30,17 @@ echo "Number of 4xx: $( awk ' $9 ~ /^4[0-9][0-9]$/ {print $9} ' "$1" | wc -l)"
 echo "==========================================================="
 echo
 
-echo "Top 10 Ips:"
-awk '{ print $1 }' "$1" | sort | uniq -c | sort -r | head
+echo "Top $n Ips:"
+awk '{ print $1 }' "$1" | sort | uniq -c | sort -r | head -n $n
 echo
 
-echo "Top 10 Paths:"
-awk '{ print $7 }' "$1" | sort | uniq -c | sort -r | head
+echo "Top $n Paths:"
+awk '{ print $7 }' "$1" | sort | uniq -c | sort -r | head -n $n
 echo
 
-echo "Top 10 404 Paths:"
-awk ' $9==404 { print $7 }' "$1" | sort | uniq -c | sort -r | head
+echo "Top $n 404 Paths:"
+awk ' $9==404 { print $7 }' "$1" | sort | uniq -c | sort -r | head -n $n
+
 
 echo
 echo "==========================================================="
