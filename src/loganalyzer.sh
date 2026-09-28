@@ -121,4 +121,8 @@ END {
 	}
 }' "$data"
 
+
+heading "Suspicious activity"
+awk '{ m=substr($4, 2 ,17) ; count[m]++} END { for (k in count) print count[k], k}' $data | sort -rn | head -3
+
 echo
