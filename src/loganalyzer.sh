@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 n=10 #default vaule for dipslaying top
+threshold=60
 status=""
 
 usage () {
@@ -122,7 +123,16 @@ END {
 }' "$data"
 
 
-heading "Suspicious activity"
-awk '{ m=substr($4, 2 ,17) ; count[m]++} END { for (k in count) print count[k], k}' $data | sort -rn | head -3
+heading "Suspicious activity (> $threshold requests/min from one IP)"
+suspicious=$(awk -v limit="$threshold" '
+{ m = substr($4, 2, 17); count[$1 " " m]++ }
+END { for (k in count) if (count[k] > limit) print count[k], k }
+' "$data" | sort -rn | head -n "$n")
 
-echo
+if [[ -z $suspicious ]]; then
+	printf '  %sNone detected%s\n' "$GREEN" "$RESET"
+else
+	awk -v col="$RED" -v d="$DIM" -v r="$RESET" '
+	{ printf "  %s%6d%s  %-16s %s%s%s\n", col, $1, r, $2, d, $3, r }
+	' <<< "$suspicious"
+fi
